@@ -18,6 +18,11 @@ use App\Models\Teacher;
 class GradeController extends BaseModuleController
 {
     protected $moduleName = 'grades';
+    protected $titleColumnKey = 'grade';
+    protected $titleColumnLabel = 'Grade';
+    protected $titleFormKey = 'grade';
+    protected $titleFormLabel = 'Grade';
+
     private static array $formFields;
     /**
      * This method can be used to enable/disable defaults. See setUpController in the docs for available options.
@@ -25,6 +30,7 @@ class GradeController extends BaseModuleController
     protected function setUpController(): void
     {
         $this->disablePermalink();
+        $this->enableSkipCreateModal();
 
         self::$formFields = [
             Select::make()
@@ -93,10 +99,27 @@ class GradeController extends BaseModuleController
      */
     protected function additionalIndexTableColumns(): TableColumns
     {
-        $table = parent::additionalIndexTableColumns();
+        $table = new TableColumns();
 
         $table->add(
-            Text::make()->field('description')->title('Description')
+            Text::make()->field('course_id')->title('Course')->customRender(function ($course) {
+                $user = Course::find($course->course_id);
+                return $user ? $user->title : 'Null';
+            }),
+        );
+
+        $table->add(
+            Text::make()->field('student_id')->title('Student')->customRender(function ($student) {
+                $user = Student::find($student->teacher_id);
+                return $user ? $user->first_name . ' ' . $user->last_name : 'Unknown';
+            }),
+        );
+
+        $table->add(
+            Text::make()->field('teacher_id')->title('Teacher')->customRender(function ($teacher) {
+                $user = Teacher::find($teacher->teacher_id);
+                return $user ? $user->first_name . ' ' . $user->last_name : 'Unknown';
+            }),
         );
 
         return $table;
