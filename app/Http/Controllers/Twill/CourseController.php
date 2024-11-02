@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Twill;
 
 use A17\Twill\Models\Contracts\TwillModelContract;
+use A17\Twill\Services\Forms\Fields\Files;
+use A17\Twill\Services\Forms\Fields\MultiSelect;
 use A17\Twill\Services\Forms\Fields\Select;
 use A17\Twill\Services\Forms\Fields\Wysiwyg;
 use A17\Twill\Services\Listings\Columns\Text;
@@ -10,6 +12,7 @@ use A17\Twill\Services\Listings\TableColumns;
 use A17\Twill\Services\Forms\Fields\Input;
 use A17\Twill\Services\Forms\Form;
 use A17\Twill\Http\Controllers\Admin\ModuleController as BaseModuleController;
+use App\Models\Student;
 use App\Models\Teacher;
 use A17\Twill\Services\Forms\Options;
 
@@ -55,6 +58,26 @@ class CourseController extends BaseModuleController
                     }
                 ))->toArray())
         );
+
+        $form->add(
+            Files::make()
+                ->name('files')
+                ->label('Files')
+                ->note('Add files')
+        );
+
+        $form->add(
+            MultiSelect::make()
+                ->name('students')
+                ->label('Students')
+                ->options(Options::make(
+                    Student::all('id', 'first_name')->mapWithKeys(function ($item) {
+                        return [$item->id => $item->first_name];
+                    })
+                )->toArray())
+        );
+
+
 
         return $form;
     }
