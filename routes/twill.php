@@ -9,3 +9,4 @@ TwillRoutes::module('courses');
 TwillRoutes::module('teachers');
 TwillRoutes::module('students');
 TwillRoutes::module('grades');
+TwillRoutes::module('homeworks');

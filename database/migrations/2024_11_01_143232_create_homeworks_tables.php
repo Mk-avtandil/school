@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Homework;
+use App\Models\Course;
 use App\Models\Student;
 use App\Models\Teacher;
 use Illuminate\Database\Migrations\Migration;
@@ -11,20 +11,20 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('grades', function (Blueprint $table) {
+        Schema::create('homeworks', function (Blueprint $table) {
             // this will create an id, a "published" column, and soft delete and timestamps columns
             createDefaultTableFields($table);
 
-            $table->foreignIdFor(Homework::class)->onDelete('cascade');;
-            $table->foreignIdFor(Student::class)->onDelete('cascade');;
-            $table->foreignIdFor(Teacher::class)->onDelete('cascade');;
-            $table->integer('grade')->default(0);
-            $table->string('comment')->nullable();
+            $table->string('title', 200);
+            $table->text('description')->nullable();
+            $table->foreignIdFor(Course::class)->onDelete('cascade');
+            $table->foreignIdFor(Student::class)->onDelete('cascade');
+            $table->foreignIdFor(Teacher::class)->onDelete('cascade');
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('grades');
+        Schema::dropIfExists('homeworks');
     }
 };

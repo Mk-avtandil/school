@@ -6,6 +6,7 @@ use A17\Twill\Models\Behaviors\HasMedias;
 use A17\Twill\Models\Behaviors\HasFiles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use A17\Twill\Models\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Course extends Model
@@ -20,12 +21,12 @@ class Course extends Model
         'teacher_id',
     ];
 
-    public function grades(): HasMany
+    public function homeworks(): HasMany
     {
-        return $this->hasMany(Grade::class);
+        return $this->hasMany(Homework::class);
     }
 
-    public function students()
+    public function students(): BelongsToMany
     {
         return $this->belongsToMany(Student::class, 'course_student');
     }

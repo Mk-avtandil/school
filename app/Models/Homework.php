@@ -2,26 +2,28 @@
 
 namespace App\Models;
 
+use A17\Twill\Models\Behaviors\HasMedias;
+use A17\Twill\Models\Behaviors\HasFiles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use A17\Twill\Models\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Grade extends Model
+class Homework extends Model
 {
-    use HasFactory;
+    use HasMedias, HasFiles, HasFactory;
+
+
 
     protected $fillable = [
         'published',
-        'homework_id',
-        'student_id',
-        'teacher_id',
-        'grade',
-        'comment',
+        'title',
+        'description',
     ];
 
-    public function homework(): BelongsTo
+    public function course(): BelongsTo
     {
-        return $this->belongsTo(Homework::class);
+        return $this->belongsTo(Course::class);
     }
 
     public function student(): BelongsTo
@@ -33,4 +35,10 @@ class Grade extends Model
     {
         return $this->belongsTo(Teacher::class);
     }
+
+    public function grades(): HasMany
+    {
+        return $this->hasMany(Grade::class);
+    }
+
 }

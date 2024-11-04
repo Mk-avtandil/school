@@ -4,6 +4,7 @@ namespace App\Models;
 
 use A17\Twill\Models\Behaviors\HasMedias;
 use A17\Twill\Models\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Teacher extends Model
 {
@@ -18,4 +19,9 @@ class Teacher extends Model
         'phone',
         'email'
     ];
+
+    public function homeworks(): hasMany
+    {
+        return $this->hasMany(Homework::class);
+    }
 }

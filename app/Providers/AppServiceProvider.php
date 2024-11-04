@@ -38,5 +38,8 @@ class AppServiceProvider extends ServiceProvider
             NavigationLink::make()->forModule('grades')
         );
 
+        TwillNavigation::addLink(
+            NavigationLink::make()->forModule('homeworks')
+        );
     }
 }
